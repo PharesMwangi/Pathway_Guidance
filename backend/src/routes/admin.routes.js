@@ -3,10 +3,10 @@ const router = express.Router();
 
 const assessmentController = require('../controllers/assessment.controller');
 
-//get all questions
-router.get('/questions', assessmentController.getQuestions);
+//create question
+router.post('/questions', assessmentController.createQuestions);
 
-//submit
-router.post('/submit', assessmentController.submitAnswers);
+//create subject
+router.post('/subjects', assessmentController.createSubject);
 
 module.exports = router;
