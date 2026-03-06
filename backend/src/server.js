@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const assessmentRoutes = require('./routes/assessment.routes');
 const resultsRoutes = require('./routes/results.routes');
+const academicRoutes = require('./routes/academic.routes');
 const adminRoutes = require('./routes/admin.routes');
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use('/api/assessment', assessmentRoutes);
 app.use('/api/results', resultsRoutes);
+app.use('/api/academic', academicRoutes);
 app.use('/api/admin', adminRoutes);
 
 const PORT = process.env.PORT || 5000;
