@@ -1,28 +1,21 @@
-import { useState, useEffect } from 'react'
-import './App.css'
-import { supabase } from './supabaseClient'
-import Auth from '../src/components/Auth'
-import Account from '../src/components/Account'
+import { Routes, Route, Link } from "react-router-dom"
+import Signup from "./pages/SignUp"
+import Login from "./pages/Login"
 
-function App() {
-  const [user, setUser] = useState(null)
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user)
-    })
-
-    supabase.auth.onAuthStateChange(async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
-    })
-  }, [])
-
+export default function App() {
   return (
-    <div className="container" style={{ padding: '50px 0 100px 0' }}>
-      {!user ? <Auth /> : <Account key={user.id} user={user} />}
+    <div>
+
+      <nav>
+        <Link to="/signup">Signup</Link> |{" "}
+        <Link to="/login">Login</Link>
+      </nav>
+
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+
     </div>
   )
 }
-
-export default App
