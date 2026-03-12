@@ -29,22 +29,36 @@ export default function Signup() {
 }
 
   return (
-    <form onSubmit={handleSignup}>
-      <h2>Signup</h2>
+    <div className="login-container">
+      <div className="login-card">
+        <h1 className="text-4xl font-bold text-blue-700">Create Account</h1>
+        <p className="description">Use your email to create an account</p>
+        <form onSubmit={handleSignup}>
+          <h2>Signup</h2>
 
-      <input
-        type="email"
-        placeholder="john@school.com"
-        onChange={(e) => setEmail(e.target.value)}
-      />
+          <label htmlFor="">Email: </label>
 
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
+          <input
+            type="email"
+            placeholder="john@school.com"
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-      <button type="submit">Sign Up</button>
-    </form>
+          <br />
+
+          <label htmlFor="">Password: </label>
+
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <br /> <br />
+
+          <button type="submit">Sign Up</button>
+      </form>
+      </div>
+    </div>
   )
 }
