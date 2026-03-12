@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { signIn } from "../../lib/auth";
+import { Link } from "react-router-dom";
 
 export default function Login(){
 
@@ -16,23 +17,41 @@ export default function Login(){
             alert(error.message);
         }
     }
+
     return(
-        <form onSubmit={handleLogin}>
-            <h2>LogIn</h2>
+        <div className="login-container">
 
-            <input 
-                type="email" 
-                placeholsrt="john@school.com"
-                onChange={(e) => setEmail(e.target.value)}
-            />
+            <div className="login-card">
 
-            <input 
-                type="password" 
-                placeholsrt="password"
-                onChange={(e) => setPassword(e.target.value)}
-            />
+                <h1>Login</h1>
+                <p>Sign in with your email</p>
 
-            <button type="submit">Log-In</button>
-        </form>
+                <form onSubmit={handleLogin}>
+
+                    <label>Email</label>
+                    <input 
+                        type="email"
+                        placeholder="john@school.com"
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+
+                    <label>Password</label>
+                    <input 
+                        type="password"
+                        placeholder="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+
+                    <button type="submit">Login</button>
+
+                </form>
+
+                <p>
+                    No account? <Link to="/signup">Sign Up</Link>
+                </p>
+
+            </div>
+
+        </div>
     )
 }
