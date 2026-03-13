@@ -20,7 +20,7 @@ export default function Questions(){
         try{
             //insert question
             const{ data: questionData, error: qError} = await supabase
-            .from("assessment_questios")
+            .from("assessment_questions")
             .insert([{question_text: question}])
             .select()
             .single();
@@ -33,10 +33,10 @@ export default function Questions(){
             const {error: optionError} = await supabase
             .from("assessment_options")
             .insert([
-                {question_id: questionId, option_test: option1, pathway: path1},
-                {question_id: questionId, option_test: option2, pathway: path2},
-                {question_id: questionId, option_test: option3, pathway: path3},
-                {question_id: questionId, option_test: option4, pathway: path4}
+                {question_id: questionId, option_text: option1, pathway: path1},
+                {question_id: questionId, option_text: option2, pathway: path2},
+                {question_id: questionId, option_text: option3, pathway: path3},
+                {question_id: questionId, option_text: option4, pathway: path4}
             ]);
 
             if(optionError) throw optionError;
