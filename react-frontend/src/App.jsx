@@ -3,6 +3,8 @@ import Signup from "./pages/auth/SignUp"
 import Login from "./pages/auth/Login"
 import Subjects from "./pages/admin/Subjects"
 import AcademicResults from "./pages/student/AcademicResults"
+import Questions from "./pages/admin/Questions"
+import Assessment from "./pages/student/Assessment"
 
 export default function App() {
   return (
@@ -12,7 +14,9 @@ export default function App() {
         <Link to="/signup">Signup</Link> |{" "}
         <Link to="/login">Login</Link> | {" "}
         <Link to="/admin/subjects">Subjects</Link> |  {" "}
-        <Link to="/academic/academic_scores">Academic </Link>
+        <Link to="/academic/academic_scores">Academic </Link> | {" "}
+        <Link to="/admin/questions">Questions</Link> | {" "}
+        <Link to="/assessment/questions">Assessment</Link>
       </nav>
 
       <Routes>
@@ -20,6 +24,8 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/admin/subjects" element={<Subjects />} />
         <Route path="/academic/academic_scores" element={<AcademicResults />} />
+        <Route path="/admin/questions" element={<Questions />} />
+        <Route path="/assessment/questions" element={<Assessment />} />
       </Routes>
 
     </div>
