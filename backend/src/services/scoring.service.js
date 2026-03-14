@@ -64,9 +64,24 @@ function calculatePathway(academicResults, assessmentAnswers){
 
     })
 
+    // add explanation
+    let note = ""
+    switch(recommended){
+        case "STEM":
+            note = "This recommendation was made because your average scores in STEM subjects were the highest, and your assessment answers also aligned with STEM interests."
+            break
+        case "Arts & Sports":
+            note = "This recommendation was made because you performed strongly in creative and technical subjects, and your assessment responses showed interest in arts and sports."
+            break
+        case "Social Sciences":
+            note = "This recommendation was made because your language and social studies scores were strong, and your assessment answers leaned toward social sciences."
+            break
+    }
+
     return{
         scores: pathwayScores,
-        recommendedPathway: recommended
+        recommendedPathway: recommended,
+        note: note
     }
 }
 
