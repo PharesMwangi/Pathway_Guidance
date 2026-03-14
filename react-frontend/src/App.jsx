@@ -5,6 +5,7 @@ import Subjects from "./pages/admin/Subjects"
 import AcademicResults from "./pages/student/AcademicResults"
 import Questions from "./pages/admin/Questions"
 import Assessment from "./pages/student/Assessment"
+import Results from "./pages/student/Results"
 
 export default function App() {
   return (
@@ -16,7 +17,8 @@ export default function App() {
         <Link to="/admin/subjects">Subjects</Link> |  {" "}
         <Link to="/academic/academic_scores">Academic </Link> | {" "}
         <Link to="/admin/questions">Questions</Link> | {" "}
-        <Link to="/assessment/questions">Assessment</Link>
+        <Link to="/assessment/questions">Assessment</Link> | {" "}
+        <Link to="/scoring/calculate">Results</Link>
       </nav>
 
       <Routes>
@@ -26,6 +28,7 @@ export default function App() {
         <Route path="/academic/academic_scores" element={<AcademicResults />} />
         <Route path="/admin/questions" element={<Questions />} />
         <Route path="/assessment/questions" element={<Assessment />} />
+        <Route path="/scoring/calculate" element={<Results />} />
       </Routes>
 
     </div>
