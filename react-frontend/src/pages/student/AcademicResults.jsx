@@ -33,16 +33,20 @@ export default function AcademicResults(){
 
     async function fetchStudents(){
         const { data: userData } = await supabase.auth.getUser()
-
         const userId = userData.user.id
 
-        const{ data } = await supabase
+        const { data, error } = await supabase
             .from("students")
             .select("id")
             .eq("user_id", userId)
             .single()
-        
-        setStudentId(data.id)
+
+        if (error) {
+            console.log("fetchStudents error:", error.message)
+            return  // 👈 stop here instead of crashing
+        }
+
+        if (data) setStudentId(data.id)  // 👈 only set if data exists
     }
 
     function handleGradeChange(subjectId, grade){
@@ -53,6 +57,10 @@ export default function AcademicResults(){
     }
 
     async function handleSubmit(){
+        if (!studentId) {
+            alert("Student record not found. Please contact your administrator.")
+            return
+        }
         const rows = subjects.map(subject => ({
             student_id: studentId,
             grade_level: selectedGrade,
