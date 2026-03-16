@@ -1,57 +1,86 @@
 import { useState } from "react";
 import { signIn } from "../../lib/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "../../lib/supabaseClient";
 
-export default function Login(){
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  async function handleLogin(e) {
+    e.preventDefault();
+    setLoading(true);
 
-    async function handleLogin(e){
-        e.preventDefault();
+    try {
+      // 1. Sign in
+      const data = await signIn(email, password);
+      console.log("1. Login data:", data)        // check user exists
 
-        try{
-            await signIn(email, password);
-            alert("Login successful!");
-        }catch(error){
-            alert(error.message);
-        }
+      const userId = data.user.id;
+      console.log("2. User ID:", userId)          // check ID is there
+
+      // 👇 wait 500ms for auth lock to release
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      console.log("2.5 - about to fetch profile") // 👈 add this
+
+      // 2. Fetch role from profiles table
+      const { data: profile, error } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", userId)
+        .single();
+
+        console.log("3. Profile:", profile)         // is this null?
+        console.log("4. Profile error:", error)     // any error here?
+
+      if (error) throw error;
+
+      // 3. Redirect based on role
+      if (profile.role === "admin") {
+        navigate("/admin/subjects");
+      } else {
+        navigate("/student/academic");
+      }
+
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
     }
+  }
 
-    return(
-        <div className="login-container">
+  return (
+    <div className="login-container">
+      <div className="login-card">
+        <h1>Login</h1>
+        <p>Sign in with your email</p>
 
-            <div className="login-card">
+        <form onSubmit={handleLogin}>
+          <label>Email</label>
+          <input
+            type="email"
+            placeholder="john@school.com"
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-                <h1>Login</h1>
-                <p>Sign in with your email</p>
+          <label>Password</label>
+          <input
+            type="password"
+            placeholder="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-                <form onSubmit={handleLogin}>
+          <button type="submit" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
 
-                    <label>Email</label>
-                    <input 
-                        type="email"
-                        placeholder="john@school.com"
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-
-                    <label>Password</label>
-                    <input 
-                        type="password"
-                        placeholder="password"
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-
-                    <button type="submit">Login</button>
-
-                </form>
-
-                <p>
-                    No account? <Link to="/signup">Sign Up</Link>
-                </p>
-
-            </div>
-
-        </div>
-    )
+        <p>
+          No account? <Link to="/signup">Sign Up</Link>
+        </p>
+      </div>
+    </div>
+  );
 }
