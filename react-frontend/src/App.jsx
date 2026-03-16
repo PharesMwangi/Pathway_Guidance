@@ -1,36 +1,84 @@
-import { Routes, Route, Link } from "react-router-dom"
-import Signup from "./pages/auth/SignUp"
-import Login from "./pages/auth/Login"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./hooks/useAuth";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+//auth pages
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/SignUp";
+
+//admin
 import Subjects from "./pages/admin/Subjects"
-import AcademicResults from "./pages/student/AcademicResults"
 import Questions from "./pages/admin/Questions"
-import Assessment from "./pages/student/Assessment"
-import Results from "./pages/student/Results"
 
-export default function App() {
-  return (
-    <div>
+//student
+import AcademicResults from "./pages/student/AcademicResults";
+import Assessment from "./pages/student/Assessment";
+import Results from "./pages/student/Results";
 
-      <nav>
-        <Link to="/signup">Signup</Link> |{" "}
-        <Link to="/login">Login</Link> | {" "}
-        <Link to="/admin/subjects">Subjects</Link> |  {" "}
-        <Link to="/academic/academic_scores">Academic </Link> | {" "}
-        <Link to="/admin/questions">Questions</Link> | {" "}
-        <Link to="/assessment/questions">Assessment</Link> | {" "}
-        <Link to="/scoring/calculate">Results</Link>
-      </nav>
+//shared
+import Unauthorized from "./pages/Unauthorized";
 
-      <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/admin/subjects" element={<Subjects />} />
-        <Route path="/academic/academic_scores" element={<AcademicResults />} />
-        <Route path="/admin/questions" element={<Questions />} />
-        <Route path="/assessment/questions" element={<Assessment />} />
-        <Route path="/scoring/calculate" element={<Results />} />
-      </Routes>
+export default function App(){
+  return(
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/*public*/}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
 
-    </div>
+          {/* admin */}
+          <Route
+            path="/admin/subjects"
+            element ={
+              <ProtectedRoute allowedRole="admin">
+                <Subjects />
+              </ProtectedRoute>
+            }
+            />
+
+          <Route
+            path="/admin/questions"
+            element ={
+              <ProtectedRoute allowedRole="admin">
+                <Questions />
+              </ProtectedRoute>
+            }
+            />
+          
+          {/* students */}
+          <Route
+            path="/student/academic"
+            element ={
+              <ProtectedRoute allowedRole="student">
+                <AcademicResults />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/student/assessment"
+            element ={
+              <ProtectedRoute allowedRole="student">
+                <Assessment />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/student/results"
+            element ={
+              <ProtectedRoute allowedRole="student">
+                <Results />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* catch-all: redirect to login */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
