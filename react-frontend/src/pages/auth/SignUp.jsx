@@ -1,32 +1,40 @@
 import { useState } from "react"
-import { signUp } from "../../lib/auth"
 import { supabase } from "../../lib/supabaseClient"
+import { useNavigate } from "react-router-dom"
 
 export default function Signup() {
-
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [fullName, setFullName] = useState("")
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   async function handleSignup(e) {
-  e.preventDefault()
+    e.preventDefault()
+    setLoading(true)
 
-  try {
-    const data = await signUp(email, password)
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { role: "student", full_name: fullName }
+        }
+      })
 
-    const userId = data.user.id
+      if (error) throw error
 
-    await supabase.from("students").insert([
-      {
-        user_id: userId
-      }
-    ])
+      // trigger handles profiles + students insert automatically ✅
 
-    alert("Signup successful")
+      alert("Signup successful! Please check your email to confirm.")
+      navigate("/login")
 
-  } catch (error) {
-    alert(error.message)
+    } catch (error) {
+      alert(error.message)
+    } finally {
+      setLoading(false)
+    }
   }
-}
 
   return (
     <div className="login-container">
@@ -36,8 +44,16 @@ export default function Signup() {
         <form onSubmit={handleSignup}>
           <h2>Signup</h2>
 
-          <label htmlFor="">Email: </label>
+          <label>Full Name: </label>
+          <input
+            type="text"
+            placeholder="John Doe"
+            onChange={(e) => setFullName(e.target.value)}
+          />
 
+          <br />
+
+          <label>Email: </label>
           <input
             type="email"
             placeholder="john@school.com"
@@ -46,18 +62,19 @@ export default function Signup() {
 
           <br />
 
-          <label htmlFor="">Password: </label>
-
+          <label>Password: </label>
           <input
             type="password"
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <br /> <br />
+          <br /><br />
 
-          <button type="submit">Sign Up</button>
-      </form>
+          <button type="submit" disabled={loading}>
+            {loading ? "Creating account..." : "Sign Up"}
+          </button>
+        </form>
       </div>
     </div>
   )
