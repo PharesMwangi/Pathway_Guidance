@@ -83,7 +83,9 @@ export default function AcademicResults(){
         <div>
             <h2>Academic Results</h2>
 
-            <label>Select Grade</label>
+            <h4>Input your academic results. They will help to give insight on recommendation.</h4>
+
+            <label>Select Grade : </label>
 
             <select
             value={selectedGrade}
@@ -97,7 +99,7 @@ export default function AcademicResults(){
 
             {subjects.map(subject => (
                 <div key={subject.id}>
-                    <label> {subject.name}</label>
+                    <label> {subject.name} : </label>
 
                     <select
                     onChange={(e) =>
