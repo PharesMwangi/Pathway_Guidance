@@ -10,12 +10,14 @@ export default function Subjects(){
     }, [])
 
     async function fetchSubjects(){
-        const { data } = await supabase
+        const { data, error } = await supabase
         .from ("subjects")
         .select("*")
         .order("id", {ascending: true})
 
-        if(!error) {
+        if(error) {
+            alert(error.message)
+        }else{
             setSubjects(data)
         }
     }
