@@ -22,7 +22,7 @@ export default function Login() {
       console.log("2. User ID:", userId)          // check ID is there
 
       // 👇 wait 500ms for auth lock to release
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 500));
       console.log("2.5 - about to fetch profile") // 👈 add this
 
       // 2. Fetch role from profiles table
