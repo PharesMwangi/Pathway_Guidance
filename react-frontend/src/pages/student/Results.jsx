@@ -38,23 +38,34 @@ export default function Results(){
             return;
         }
 
-        const response = await fetch(import.meta.env.VITE_API_BASE_URL || "http://localhost:5001/api/scoring/calculate",{
+        try {
+        const baseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5001"
+
+        const response = await fetch(`${baseUrl}/api/scoring/calculate`, {
             method: "POST",
             headers:{
-                "Content-Type":"Application/json"
+                "Content-Type": "application/json"  // 👈 lowercase 'json'
             },
             body: JSON.stringify({
                 studentId: studentId
             })
         })
 
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`)
+        }
+
         const data = await response.json()
 
         setRecommendation(data.recommendedPathway)
         setScores(data.scores)
-        setNote(data.note);
+        setNote(data.note)
 
-     }
+    } catch(error) {
+        console.log(error)
+        alert(error.message)
+    }
+}
 
      return(
         <div style={{padding : "40px"}}>
