@@ -9,7 +9,9 @@ const scoringRoutes = require('./routes/scoring.routes');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: [process.env.ALLOWED_CORS_ORIGIN]
+}));
 app.use(express.json());
 
 app.use('/api/assessment', assessmentRoutes);
