@@ -18,6 +18,7 @@ export default function Signup() {
         email,
         password,
         options: {
+          emailRedirectTo: import.meta.env.VITE_REDIRECT_URL,
           data: { role: "student", full_name: fullName }
         }
       })
