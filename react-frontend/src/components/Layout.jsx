@@ -32,7 +32,7 @@ export default function Layout({ children }) {
             <>
               <Link to="/student/academic" style={styles.link}>Academic Results</Link>
               <Link to="/student/assessment" style={styles.link}>Assessment</Link>
-              <Link to="/student/results" style={styles.link}>Results</Link>
+              <Link to="/student/results" style={styles.link}>Recommendation</Link>
             </>
           )}
         </nav>
