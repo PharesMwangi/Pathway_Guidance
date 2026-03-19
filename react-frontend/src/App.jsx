@@ -15,6 +15,7 @@ import Questions from "./pages/admin/Questions"
 import AcademicResults from "./pages/student/AcademicResults";
 import Assessment from "./pages/student/Assessment";
 import Results from "./pages/student/Results";
+import Home from "./pages/Home"
 
 //shared
 import Unauthorized from "./pages/Unauthorized";
@@ -28,6 +29,7 @@ export default function App(){
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path="/" element={<Home />} />
 
           {/* admin */}
           <Route
@@ -92,7 +94,7 @@ export default function App(){
           />
 
           {/* catch-all: redirect to login */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
