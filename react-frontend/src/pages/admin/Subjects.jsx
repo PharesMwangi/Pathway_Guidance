@@ -74,7 +74,14 @@ export default function Subjects(){
 
                     {subject.name}
 
-                    <button onClick={() =>deleteSubject(subject.id)}>Delete</button>
+                    <button onClick={() =>deleteSubject(subject.id)}
+                        style={{backgroundColor:"#ef4444",
+                            marginLeft: "16px",
+                            marginBottom: "8px"
+                        }}> 
+                        
+                        Delete
+                        </button>
 
                 </div>
             ))}
