@@ -38,7 +38,7 @@ export default function Results(){
             return;
         }
 
-        const response = await fetch(import.meta.VITE_API_BASE_URL || "http://localhost:5001/api/scoring/calculate",{
+        const response = await fetch(import.meta.env.VITE_API_BASE_URL || "http://localhost:5001/api/scoring/calculate",{
             method: "POST",
             headers:{
                 "Content-Type":"Application/json"
