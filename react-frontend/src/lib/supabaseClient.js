@@ -8,6 +8,7 @@ export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true,
+    redirectTo: `${window.location.origin}/login`,
     lock: (name, acquireTimeout, fn) => fn(), // 👈 bypasses the lock mechanism
   }
 })
